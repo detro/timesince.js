@@ -22,8 +22,8 @@
  * A forward counter JavaScript utility.
  * 
  * Author: Ivan De Marino <detronizator@gmail.com>
- * Version: 0.1
- * Last-Update: 2011-06-05
+ * Version: 0.2
+ * Last-Update: 2011-06-06
  */
  
 /**
@@ -47,7 +47,8 @@
 var timeSince = function(startTimestamp, format) {
     var placeHolder = null,
     placeHolderId = "cntdwn",
-    interval = null;
+    timeout = null,
+    timeoutPeriod = 1000;
 
     if (typeof(format) === "undefined") {
         // Default format
@@ -86,11 +87,11 @@ var timeSince = function(startTimestamp, format) {
     // Do the first update
     update();
 
-    // Start Interval - tick every second
-    interval = setInterval(function() {
+    // Start Timeout - tick every second
+    timeout = setTimeout(function() {
         update();
-    },
-    1000);
+        timeout = setTimeout(arguments.callee, timeoutPeriod);
+    }, timeoutPeriod);
 
     return {
         updateTimeSince: update
